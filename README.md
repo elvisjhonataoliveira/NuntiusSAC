@@ -9,10 +9,14 @@ This application is designed for those who need to schedulle an email message th
 - Split the pdf into png images
 - Send an email with those images (on the body or attached)
 
+It use Puppetter to do all interaction with SAC.
+
 ## Prereqs
 
 These are the prereqs for the application run correctly:
 
+- node js
+- npm
 - mongodb
 - imagemagick
 - ghostscript
@@ -24,7 +28,7 @@ These are the prereqs for the application run correctly:
 OS X & Linux:
 
 ```sh
-git clone <https://github.com/elvisjhonataoliveira/NuntiusSAC>
+git clone https://github.com/elvisjhonataoliveira/NuntiusSAC
 cd NuntiusSAC
 npm install
 ```
