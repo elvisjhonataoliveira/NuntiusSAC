@@ -24,7 +24,7 @@ These are the prereqs for the application run correctly:
 OS X & Linux:
 
 ```sh
-git clone <this_repo>
+git clone <https://github.com/elvisjhonataoliveira/NuntiusSAC>
 cd NuntiusSAC
 npm install
 ```
