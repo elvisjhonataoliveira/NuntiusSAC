@@ -1,0 +1,42 @@
+<%- include('../header')%>
+<div class='row'>
+	<h1>Lista de Disparos</h1>
+</div>
+<div class='row'>
+	<div class="col-lg-10 offset-lg-1">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Remetente</th>
+					<th>Destinatários</th>
+					<th>Página</th>
+					<th>Cron</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% if (schedullers && schedullers.length>0) { -%>
+					<% for (var i = 0; i < schedullers.length; i++) { -%>
+						<tr>
+							<td><%= schedullers[i].name %></td>
+							<td><%= schedullers[i].mailFrom %></td>
+							<td><%= schedullers[i].mailTo %></td>
+							<td><%= schedullers[i].pages %></td>
+							<td><%= schedullers[i].cron %></td>
+							<td>
+								<a href="/scheduller/<%= schedullers[i]._id %>"><i class="far fa-edit fa-1x"></i></a>
+							</td>
+						</tr>
+					<% } -%>	
+				<% } -%>
+			</tbody>
+		</table>
+	</div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<%- include('../footer')%>

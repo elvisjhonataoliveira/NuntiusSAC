@@ -1,0 +1,149 @@
+<%- include('../header')%>
+<div class='row'>
+	<div class="col-lg-8 offset-lg-2">
+		<form action="/scheduller" method="POST" class='jumbotron'>
+			<fieldset>
+				<legend>Cadastrar Disparo</legend>
+				<% if (scheduller._id!=undefined) { -%>
+					<input type="hidden" name="_id", value="<%= scheduller._id%>" id="schedullerId"/>	
+					<input type="hidden" name="creationDate", value="<%= scheduller.creationDate%>"/>	
+					<input type="hidden" name="updatedDate", value="<%= scheduller.updatedDate%>"/>	
+				<% } -%>
+
+				<% if(errors && errors.length>0){ %>
+					<div class="alert alert-dismissible alert-primary">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<strong>Algo deu errado..</strong> 
+						<ul>
+
+						<% for(var i = 0; i < errors.length; i++) { %>
+							<li class="text-primary"><%=errors[i].msg%></li>
+						<% } %>
+						</ul>
+					</div>
+				<% } %>
+				<div class="form-group">
+					<label>Nome do Disparo</label>
+					<input type="text" class="form-control" placeholder="Dê um nome para esse disparo. Será o título do e-mail." name='name' value="<%= scheduller.name %>">
+				</div>
+				<div class="form-group">
+					<label>Remetente</label>
+					<input type="email" class="form-control" placeholder="Digite o e-mail do remetente deste disparo" name='mailFrom' value="<%= scheduller.mailFrom %>">
+				</div>
+				<div class="form-group">
+					<label>Destinatário(s)</label>
+					<input type="text" class="form-control" placeholder="Digite os e-mail's dos destinatários, separado por vírgula" name='mailTo' value="<%= scheduller.mailTo %>">
+				</div>
+				<div class="form-group">
+					<label>Responder-Para (Reply-To)</label>
+					<input type="text" class="form-control" placeholder="Digite os e-mail's para quem deve ser enviado caso alguém responda o e-mail do relatório" name='mailReplyTo' value="<%= scheduller.mailReplyTo %>">
+				</div>
+				<div class="form-group">
+					<label>URL do Relatório</label>
+					<input type="text" class="form-control" placeholder="A URL do relatório do SAP Analytics Cloud" name='reportEndpoint' value="<%= scheduller.reportEndpoint %>">
+				</div>
+				<div class="form-group">
+					<label>Páginas a serem enviadas</label>
+					<input type="text" class="form-control" placeholder="Especifique as páginas que serão enviadas" name='pages' value="<%= scheduller.pages %>">
+					<small id="emailHelp" class="form-text text-muted">Com o seguinte padrão: X-Nome. Onde 'X' é o número da página do relatório (ex.: 1, 2, 3, etc.) e 'Nome' é a descrição que precisa ir no anexo para essa página (ex.: Venda Geral, Venda por GR, etc.), separando as páginas por vírgula. Exemplo: 1-Venda Hora,2-Venda por GR,3-Venda por loja </small>
+				</div>
+				<div class="form-group">
+					<label>CRON</label>
+					<input type="text" class="form-control" placeholder="Especifique o CRON desse disparo (frequência de disparo)" name='cron' value="<%= scheduller.cron %>">
+					<small id="emailHelp" class="form-text text-muted">
+						Especifique o <b>CRON</b> do disparo. Siga o modelo abaixo (dica: * significa que são todos).
+					</small>
+					<img src='/img/cron_tip.png' width="100%">
+				</div>
+				<div class="form-check">
+					<label class="form-check-label">
+          				<input class="form-check-input" type="checkbox" name="addHour" value="true" <% if (scheduller.addHour) { -%>checked='checked'<% } -%>>
+          				Adicionar hora no título do e-mail?
+        			</label>
+				</div>
+				<div class="form-check">
+					<label class="form-check-label">
+          				<input class="form-check-input" type="checkbox" name="sendPdf" value="true" <% if (scheduller.sendPdf) { -%>checked='checked'<% } -%>>
+          				Enviar como PDF em anexo?
+        			</label>
+				</div>
+				<div class="form-check">
+					<label class="form-check-label">
+          				<input class="form-check-input" type="checkbox" name="sendImage" value="true" <% if (scheduller.sendImage) { -%>checked='checked'<% } -%>>
+          				Enviar imagem no corpo do e-mail?
+        			</label>
+				</div>
+				<div class="form-check">
+					<label class="form-check-label">
+          				<input class="form-check-input" type="checkbox" name="sendDisclaimer" value="true" <% if (scheduller.sendDisclaimer) { -%>checked='checked'<% } -%>>
+          				Enviar disclaimer no corpo do e-mail?
+        			</label>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary">Salvar</button>
+					<% if (scheduller._id!=undefined) { -%>
+						<button type="button" onclick="deleteScheduller('')" class="btn btn-primary">Excluir Disparo</button>
+					<% } %>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+<%- include('../footer')%>
+
+
+<script>
+	function deleteScheduller(){
+		var schedullerId = $('#schedullerId').val();
+		$.ajax({
+			method: 'DELETE',
+			url: "/scheduller/"+schedullerId,
+		}).done(function(data){
+			if(data.success){
+				window.location.href='/schedullers';
+			} else {
+				alert(data.error);
+			}
+		});
+	}
+</script>
+<style>
+	code{
+		--wombat-red-hover: #c40b0a;
+		--button-green: #00C642;
+		--wombat-yellow: #FFCD3A;
+		--wombat-violet: #8956FF;
+		--wombat-purple: #C836C3;
+		--wombat-green: #00C642;
+		--wombat-teal: #29ABE2;
+		--light-blue: #70b8ff;
+		--wombat-red: #cb3837;
+		--header-color: #000;
+		--bg-dark: #cb3837;
+		--npmRed: #cb3837;
+		--npmLightRed: #fb3e44;
+		--blue: #357edd;
+		--bg: #fff;
+		--code: "Fira Mono", "Andale Mono", "Consolas", monospace;
+		--code-ls: 0px;
+		--code-lh: 24px;
+		--standardCardTransition: all 0.2s ease;
+		--header-letter-spacing: 0.015625em;
+		--readme-font-size: 18px;
+		--readme-line-height: 1.6;
+		--copy-color: rgba(0,0,0,0.85);
+		--code-bg: #f7f7f7;
+		--code-box-radius: 2px;
+		-webkit-font-smoothing: antialiased;
+		color: #333;
+		box-sizing: border-box;
+		font-variant-ligatures: none;
+		font-family: "Fira Mono", "Andale Mono", "Consolas", monospace;
+		letter-spacing: 0px;
+		line-height: 24px;
+		border-radius: 2px;
+		background: #f7f7f7;
+		font-size: 1rem;
+		padding: 0;
+}
+</style>
